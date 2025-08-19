@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id=" @+id/privacy_protocal" android:title="隐私政策" ></item>
+    <item android:id=" @+id/user_protocal" android:title="统计助手服务协议" ></item>
+</menu>

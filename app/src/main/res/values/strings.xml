@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">统计助手</string>
+    <string name="add_item">新增资产</string>
+    <string name="button_save" translatable="false">保存</string>
+    <string name="amount">金额</string>
+    <string name="type">类型</string>
+    <string name="please_input">请输入</string>
+    <string name="please_select">请选择</string>
+    <string name="new_type">新增类型</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="manage_type">管理资产类型</string>
+    <string name="edit_type">编辑类型</string>
+    <string name="edit_record">编辑记录</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="confirm_delete">确认删除这条记录么？</string>
+    <string name="property_statistc">资产统计</string>
+    <string name="share_details">分布详情</string>
+    <string name="warm_hint">温馨提示</string>
+    <string name="amount_cannot_be_null" translatable="false">金额不能为空</string>
+    <string name="type_cannot_be_null" translatable="false">类型不能为空</string>
+
+
+
+    <string name="user_hint">亲爱的用户，感谢您下载统计助手。\n
+        我们非常重视您的个人信息和隐私保护，为了更好地保护您的个人权益，我们根据相关的法律制定了
+        《统计助手服务协议》和《隐私政策》。现向您说明如下：\n\n
+        1.我们可能会获取您的设备号信息、设备信息，网络信息等内容用于做用户分析，以指导下一步的应用优化；\n\n
+        2.我们会采取各种安全措施保护您的信息安全，未经您同意，我们不会从第三方获取，共享或对外提供您的信息。\n
+    </string>
+    <string name="service_protocol">《统计助手服务协议》</string>
+    <string name="privacy_policy">《隐私政策》</string>
+    <string name="service_protocal_title">用户服务协议</string>
+    <string name="service_protocal_content">感谢您下载和使用统计助手,请您在使用本软件之前详细阅读服务协议和隐私政策。\n
+        一、定义：\n
+        统计助手：指统计助手向用户提供服务的产品载体（包括并不限于APP/网站/公众号等）。\n
+        统计助手服务提供者：个人开发者刘伟。\n\n
+        二、接受条款： \n
+        以任何方式进入本统计助手并点击同意按钮即表示您同意与统计助手签订本协议、且您将接受本协议的条款和条件约束。\n\n
+        三、服务内容：\n
+        本软件方便用户对自己所要统计的项目进行各种统计。目前主要是个人资产统计。统计助手会不断丰富本软件的功能。\n\n
+        四、收费：\n
+        本软件保留后续收费的权利。\n\n
+        五、隐私政策：\n
+        详细条款请参见《隐私政策》。\n\n
+        六、责任范围：\n
+        您明确理解和同意，统计助手仅对本协议中所列明的义务承担责任。\n
+        用户应对自己的重要数据做备份，通过统计助手保存的数据如果出现错误或损坏，本软件不承担赔偿责任。\n\n
+        七、遵守法律：\n
+        您承诺不会利用本软件提供服务进行任何违法或不当的活动共。\n\n
+        八、协议更新：\n
+        本协议可能发生变动，开发者保留变更协议的权利，权利变更会用通知或弹窗等显著的方式通知用户。\n\n
+        九、联系我们：\n
+        您可以通过发送邮件到邮箱 459843397@qq.com 来反馈您的意见和建议。\n\n
+    </string>
+    <string name="privacy_policy_title">隐私政策</string>
+    <string name="privacy_policy_content">
+        一、引言:\n
+        您的信任对我们非常重要，我们深知个人信息对您的重要性，我们将按照法律法规的要求，基于您的授权，合理、必要、限制地使用您的个人信息。\n
+        您应认真阅读，充分理解并授权后再使用本软件。\n\n
+        二、定义：\n
+        统计助手：指统计助手向用户提供服务的产品载体（包括并不限于APP/网站/公众号等）。\n
+        统计助手服务提供者：个人开发者刘伟。\n\n
+        三、我们将如何收集和使用您的个人信息：\n
+        我们收集您的信息主要用于改善我们的服务，我们收集的个人信息主要有以下几种：\n
+        1.我们通过软件运行日志，记录程序的运行状态及崩溃。如果发生运行错误及异常，上报错误日志，用于分析错误和优化软件。\n
+        2.我们使用的sdk会收集设备授权码，授权类型，网络运营商，imei，mac地址及使用习惯等，用于绘制用户画像，指导后续软件的运营方向，用于改进我们的服务。
+        其中imei和mac地址是用来唯一标识用户设备。\n\n
+        请注意，单独的设备信息、服务日志信息是无法识别特定自然人身份的信息。
+        如果我们将这类非个人信息与其他信息结合用于识别特定自然人身份，或者将其与个人信息结合使用，则在结合使用期间，这类非个人信息将被视为个人信息，除取得您授权或法律法规另有规定外，
+        我们会将这类信息做匿名化、去标识化处理。\n\n
+        四、应用启动和关联启动说明：
+        本应用主要功能是统计，所以会在每间隔一段时间（如24h)会使用Android官方的定时任务功能去做一次数据整理和归档操作，用于数据统计的需要。
+        五、我们如何共享、转让、公开披露您的信息：\n
+        未经您允许，您的个人信息会被严格保密，我们会在本协议条款下及法律法规限定内使用您的信息。\n\n
+        六、我们对您个人信息的存储：\n
+        信息存储：\n
+        我们会依照法律的规定，仅会将收集到的有关您的个人信息保存在中华人民共和国境内。\n\n
+        七、使用到的第三方sdk:\n
+        1.sdk名称:bugly sdk.\n
+          用途:用于检测应用运行异常情况，用于优化，减少应用崩溃，提高系统兼容性。\n
+          收集个人信息类型：软件运行崩溃及异常日志,手机型号,手机品牌，设备信息（设备序列号/Mac/android ID/IDFA/OPENUDID/GUID/SIM卡IMSI/地理位置信息)。\n
+          收集的设备序列号信息用于对用户进行唯一标识，以便进行埋点统计，用户留存统计，用户行为统计等，便于后期改进我们的服务。\n
+
+        2.sdk名称：友盟+SDK\n
+          用途：用于统计使用的用户量，应用程序用户增长信息。\n
+          收集个人信息类型：设备信息（设备序列号/Mac/android ID/IDFA/OPENUDID/GUID/SIM卡/IMSI/地理位置信息)\n
+          收集的设备序列号信息用途:基于设备提供sdk服务。例如用于对用户进行唯一标识，以便进行埋点统计，用户留存统计等，便于后期改进我们的服务。\n
+          数据保护方式：\n
+          a.采用SSL协议加密及HTTPS传输加密技术保障安全;\n
+          b.采取加密、去标识化等安全措施脱敏处理。\n\n
+        八、协议更新\n
+        本协议可能发生变动，开发者保留变更协议的权利，权利变更会用通知或弹窗等显著的方式通知用户。\n\n
+        九、联系我们\n
+        您可以通过发送邮件到邮箱 459843397@qq.com 来反馈您的意见和建议。\n\n
+    </string>
+    <string name="disagree">不同意</string>
+    <string name="agree_and_continue">同意并继续</string>
+    <string name="change_trend">变化趋势</string>
+    <string name="new_property">新增资产</string>
+    <string name="empty_hint">空空如也，赶紧点击加号来添加资产吧!</string>
+    <string name="type_name_not_null">类型名称不能为空</string>
+    <string name="monty_k">月K</string>
+    <string name="week_k">周K</string>
+    <string name="day_k">日K</string>
+    <string name="balance">余额</string>
+    <string name="new_add">新增</string>
+
+
+</resources>
