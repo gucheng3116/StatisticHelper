@@ -14,3 +14,5 @@
 
 <span style="font-size:16px;line-height:2;">The main pages include asset statistics, trend analysis, asset addition, and asset type management.</span>  
 <span style="font-size:16px;line-height:2;">页面主要有资产统计页面，变化趋势页面，新增资产页面，资产类型管理页面。</span>
+
+ ![first page](screens/first_page.jpg)
