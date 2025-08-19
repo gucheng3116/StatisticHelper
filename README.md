@@ -1,4 +1,4 @@
-# KotlinAccount
+# StatisticHelper
 
 <span style="font-size:20px;line-height:2;">Statistic Helper Application in Kotlin.</span>  
 <span style="font-size:20px;line-height:2;">Kotlin 统计助手应用。</span>
