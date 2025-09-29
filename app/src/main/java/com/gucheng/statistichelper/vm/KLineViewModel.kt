@@ -120,7 +120,7 @@ class KLineViewModelFactory(
     private val recordRepository: ItemRecordRepository,
     private val dailyReportRepository: DailyReportRepository
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(KLineViewModel::class.java)) {
             return KLineViewModel(recordRepository, dailyReportRepository) as T
         }

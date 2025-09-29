@@ -130,7 +130,7 @@ class MainActivityViewModelFactory(
     private val dailyReportRepository: DailyReportRepository,
     private val changeRecordReposity: ChangeRecordRepository
 ) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
             return MainActivityViewModel(recordRepository, typeRepository, dailyReportRepository, changeRecordReposity) as T
         }

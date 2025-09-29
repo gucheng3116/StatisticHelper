@@ -17,6 +17,9 @@ import com.gucheng.statistichelper.activity.ShareActivity
 import com.gucheng.statistichelper.adapter.RecordAdapter.RecordViewHolder.Companion.amount
 import com.gucheng.statistichelper.database.entity.ItemRecord
 import com.gucheng.statistichelper.formatAmount
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_BALANCE
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE_NAME
 import java.text.DecimalFormat
 
 class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
@@ -43,9 +46,9 @@ class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
             itemType.text = format.format(itemRecord.amount)
             itemType.setOnClickListener {
                 var intent = Intent(itemView.context, ChangeDetailsActivity::class.java)
-                intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE, itemRecord.typeId)
-                intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE_NAME, itemRecord.typeName)
-                intent.putExtra(ChangeDetailsActivity.EXTRA_BALANCE, itemRecord.amount?.run { Utils.formatAmount(this) }?.toString())
+                intent.putExtra(EXTRA_TYPE, itemRecord.typeId)
+                intent.putExtra(EXTRA_TYPE_NAME, itemRecord.typeName)
+                intent.putExtra(EXTRA_BALANCE, itemRecord.amount?.run { Utils.formatAmount(this) }?.toString())
                 itemView.context.startActivity(intent)
             }
             editBtn.setOnClickListener {
@@ -73,9 +76,9 @@ class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
             totalAmounnt.setText(Utils.formatAmount(amount))
             totalAmounnt.setOnClickListener {
                 var intent = Intent(itemView.context, ChangeDetailsActivity::class.java)
-                intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE, -1)
-                intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE_NAME, "总资产")
-                intent.putExtra(ChangeDetailsActivity.EXTRA_BALANCE, Utils.formatAmount(amount))
+                intent.putExtra(EXTRA_TYPE, -1)
+                intent.putExtra(EXTRA_TYPE_NAME, "总资产")
+                intent.putExtra(EXTRA_BALANCE, Utils.formatAmount(amount))
                 itemView.context.startActivity(intent)
             }
             val changeTrend: TextView = itemView.findViewById(R.id.change_trend)

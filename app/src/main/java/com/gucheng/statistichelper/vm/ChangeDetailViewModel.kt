@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.gucheng.statistichelper.database.entity.ChangeRecord
 import com.gucheng.statistichelper.database.repository.ChangeRecordRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 import kotlin.coroutines.suspendCoroutine
@@ -42,8 +41,10 @@ class ChangeDetailViewModel(private val changeRecordRepository: ChangeRecordRepo
 
 class ChangeDetailViewModelFactory(private val changeRecordRepository: ChangeRecordRepository)
     :ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ChangeDetailViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
             return ChangeDetailViewModel(changeRecordRepository) as T
         }
         throw IllegalArgumentException("unknown model class")

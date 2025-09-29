@@ -30,6 +30,9 @@ import com.gucheng.statistichelper.database.MainActivityViewModel
 import com.gucheng.statistichelper.database.MainActivityViewModelFactory
 import com.gucheng.statistichelper.database.entity.ChangeRecord
 import com.gucheng.statistichelper.database.entity.ItemRecord
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_BALANCE
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE_NAME
 import com.umeng.commonsdk.UMConfigure
 import com.yanzhenjie.recyclerview.*
 import java.util.*
@@ -465,10 +468,10 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
         amountView?.setText(Utils.formatAmount(amount))
         amountView?.setOnClickListener {
             var intent = Intent(footerView.context, ChangeDetailsActivity::class.java)
-            intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE, -1)
-            intent.putExtra(ChangeDetailsActivity.EXTRA_TYPE_NAME, "总资产")
+            intent.putExtra(EXTRA_TYPE, -1)
+            intent.putExtra(EXTRA_TYPE_NAME, "总资产")
             intent.putExtra(
-                ChangeDetailsActivity.EXTRA_BALANCE,
+                EXTRA_BALANCE,
                 RecordAdapter.RecordViewHolder.amount.toString()
             )
             startActivity(intent)

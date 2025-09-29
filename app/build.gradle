@@ -94,6 +94,7 @@ dependencies {
     implementation libs.androidx.biometric
     implementation libs.androidx.legacy.support.v4
     implementation libs.mpandroidchart
+    implementation libs.androidx.fragment.ktx
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core

@@ -42,11 +42,11 @@ class EditTypeViewModel(private val itemTypeRepository: ItemTypeRepository,
 class EditTypeViewModelFactory(private val itemTypeRepository: ItemTypeRepository,
                                private val itemRecordRepository: ItemRecordRepository)
     :ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(EditTypeViewModel::class.java)) {
-            return EditTypeViewModel(itemTypeRepository,itemRecordRepository) as T
-        }
-        throw IllegalArgumentException("Unknown model class")
-    }
+//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(EditTypeViewModel::class.java)) {
+//            return EditTypeViewModel(itemTypeRepository,itemRecordRepository) as T
+//        }
+//        throw IllegalArgumentException("Unknown model class")
+//    }
 
 }

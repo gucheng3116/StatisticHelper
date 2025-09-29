@@ -21,6 +21,8 @@
     <string name="amount_cannot_be_null" translatable="false">金额不能为空</string>
     <string name="type_cannot_be_null" translatable="false">类型不能为空</string>
 
+    <string name="current_amount">当前金额: %1$S</string>
+
 
 
     <string name="user_hint">亲爱的用户，感谢您下载统计助手。\n

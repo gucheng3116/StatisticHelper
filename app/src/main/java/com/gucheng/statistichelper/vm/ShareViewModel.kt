@@ -42,7 +42,7 @@ class ShareViewModelFactory(
     private val recordRepository: ItemRecordRepository,
     private val dailyReportRepository: DailyReportRepository
 ):ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ShareViewModel::class.java)) {
             return ShareViewModel(recordRepository,dailyReportRepository) as T
         }
