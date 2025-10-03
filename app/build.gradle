@@ -95,6 +95,8 @@ dependencies {
     implementation libs.androidx.legacy.support.v4
     implementation libs.mpandroidchart
     implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
