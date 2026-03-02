@@ -1,7 +1,6 @@
 package com.gucheng.statistichelper
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gucheng.statistichelper.activity.EditTypeActivity
 import com.gucheng.statistichelper.database.entity.ItemType
 import com.gucheng.statistichelper.database.MainActivityViewModel
 
@@ -34,7 +32,7 @@ class ItemFragment(viewModel: MainActivityViewModel) : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as TypeSelectListener
+        listener = parentFragment as? TypeSelectListener ?: context as? TypeSelectListener
     }
 
     override fun onDetach() {
@@ -46,6 +44,7 @@ class ItemFragment(viewModel: MainActivityViewModel) : DialogFragment() {
 
     interface TypeSelectListener {
         fun typeSelect(itemType: ItemType)
+        fun editType()
     }
 
 
@@ -57,8 +56,7 @@ class ItemFragment(viewModel: MainActivityViewModel) : DialogFragment() {
         var recyclerView = view.findViewById<RecyclerView>(R.id.item_recyclerview)
         val newTypeBtn = view.findViewById<Button>(R.id.new_type)
         newTypeBtn.setOnClickListener {
-            val intent = Intent(it.context, EditTypeActivity::class.java)
-            startActivity(intent)
+            listener?.editType()
         }
         typeAdapter = TypeAdapter(listener)
         recyclerView.adapter = typeAdapter

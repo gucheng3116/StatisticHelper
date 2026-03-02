@@ -1,6 +1,5 @@
 package com.gucheng.statistichelper.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.gucheng.statistichelper.AccountApplication
@@ -30,19 +30,20 @@ import com.gucheng.statistichelper.database.MainActivityViewModel
 import com.gucheng.statistichelper.database.MainActivityViewModelFactory
 import com.gucheng.statistichelper.database.entity.ChangeRecord
 import com.gucheng.statistichelper.database.entity.ItemRecord
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_BALANCE
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE_NAME
+import com.gucheng.statistichelper.fragments.ChangeDetailFragment
+import com.gucheng.statistichelper.fragments.EditTypeFragment
+import com.gucheng.statistichelper.fragments.KLineFragment
+import com.gucheng.statistichelper.fragments.NewItemFragment
+import com.gucheng.statistichelper.fragments.ShareFragment
 import com.umeng.commonsdk.UMConfigure
 import com.yanzhenjie.recyclerview.*
 import java.util.*
 import java.util.concurrent.Executor
 
 
-class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
+class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener, NewItemFragment.Navigator {
     val TAG = "MainActivity";
     val handler = Handler();
-    private val REQUEST_CODE_NEW_ITEM = 1
     private lateinit var adapter: RecordAdapter
     lateinit var recyclerView: SwipeRecyclerView
     val mDataList: ArrayList<ItemRecord> = ArrayList()
@@ -78,8 +79,7 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
         }
         val fab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewItemActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_NEW_ITEM)
+            openFragment(NewItemFragment())
         }
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -123,6 +123,10 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
                 recyclerView.visibility = View.VISIBLE
             }
         }
+        supportFragmentManager.addOnBackStackChangedListener {
+            updateNavigationState()
+        }
+        updateNavigationState()
 //        VersionChecker().checkVersion(
 //            this,
 //            packageManager,
@@ -139,22 +143,13 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        super.onOptionsItemSelected(item)
-//        when (item.itemId) {
-//            R.id.privacy_protocal -> {
-//                val intent = Intent(this@MainActivity, ProtocolActivity::class.java)
-//                intent.putExtra(ProtocolActivity.PROTOCOL_TYPE, ProtocolActivity.MODE_PRIVACY)
-//                startActivity(intent)
-//            }
-//            R.id.user_protocal -> {
-//                val intent = Intent(this@MainActivity, ProtocolActivity::class.java)
-//                intent.putExtra(ProtocolActivity.PROTOCOL_TYPE, ProtocolActivity.MODE_PROTOCOL)
-//                startActivity(intent)
-//            }
-//        }
-//        return true
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressedDispatcher.onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private val executor = Executor { command -> handler.post(command) }
 
@@ -211,24 +206,6 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
 
         // 显示认证对话框
         biometricPrompt.authenticate(promptInfo)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (REQUEST_CODE_NEW_ITEM == requestCode && RESULT_OK == resultCode) {
-            val itemRecord = data?.getParcelableExtra<ItemRecord>(NewItemActivity.EXTRA_NEW_ITEM)
-            if (itemRecord != null) {
-                viewModel.insertRecord(itemRecord)
-                val changeRecord = ChangeRecord()
-                changeRecord.changeAmount = itemRecord.amount
-                changeRecord.remark = getString(R.string.new_add)
-                changeRecord.amountAfterModified = itemRecord.amount?:0.0
-                changeRecord.typeId = itemRecord.typeId?:-1
-                changeRecord.typeName = itemRecord.typeName?:""
-                viewModel.insertChangeRecord(changeRecord)
-
-            }
-        }
     }
 
     override fun delete(record: ItemRecord) {
@@ -345,17 +322,13 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
         userPromptTxt.movementMethod = LinkMovementMethod.getInstance()
         sp.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                val intent = Intent(this@MainActivity, ProtocolActivity::class.java)
-                intent.putExtra(ProtocolActivity.PROTOCOL_TYPE, ProtocolActivity.MODE_PRIVACY)
-                startActivity(intent)
+                showProtocolDialog(isPrivacy = true)
             }
         }, privacyStart, privacyEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         sp.setSpan(Color.BLUE, privacyStart, privacyEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         sp.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                val intent = Intent(this@MainActivity, ProtocolActivity::class.java)
-                intent.putExtra(ProtocolActivity.PROTOCOL_TYPE, ProtocolActivity.MODE_PROTOCOL)
-                startActivity(intent)
+                showProtocolDialog(isPrivacy = false)
             }
         }, serviceStart, serviceEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         sp.setSpan(Color.BLUE, serviceStart, serviceEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -467,27 +440,97 @@ class MainActivity : AppCompatActivity(), RecordAdapter.ItemListener {
         amountView = footerView.findViewById(R.id.total_amount)
         amountView?.setText(Utils.formatAmount(amount))
         amountView?.setOnClickListener {
-            var intent = Intent(footerView.context, ChangeDetailsActivity::class.java)
-            intent.putExtra(EXTRA_TYPE, -1)
-            intent.putExtra(EXTRA_TYPE_NAME, "总资产")
-            intent.putExtra(
-                EXTRA_BALANCE,
-                RecordAdapter.RecordViewHolder.amount.toString()
+            openFragment(
+                ChangeDetailFragment.newInstance(
+                    -1,
+                    "总资产",
+                    RecordAdapter.RecordViewHolder.amount.toString()
+                )
             )
-            startActivity(intent)
         }
 
         val changeTrend: TextView = footerView.findViewById(R.id.change_trend)
-        changeTrend.setOnClickListener { v ->
-            val intent = Intent(v.context, KLineActivity::class.java)
-            v.context.startActivity(intent)
-        }
+        changeTrend.setOnClickListener { openKLine() }
         val propertyShare: TextView = footerView.findViewById(R.id.property_share)
-        propertyShare.setOnClickListener { v ->
-            val intent = Intent(v.context, ShareActivity::class.java)
-            v.context.startActivity(intent)
-        }
+        propertyShare.setOnClickListener { openShare() }
         return footerView
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        findViewById<View>(R.id.fragment_container).visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun updateNavigationState() {
+        val hasBackStack = supportFragmentManager.backStackEntryCount > 0
+        val fragmentContainer = findViewById<View>(R.id.fragment_container)
+        val fab = findViewById<View>(R.id.floatingActionButton)
+        val emptyView = findViewById<View>(R.id.empty_view)
+        fragmentContainer.visibility = if (hasBackStack) View.VISIBLE else View.GONE
+        fab.visibility = if (hasBackStack) View.GONE else View.VISIBLE
+        if (hasBackStack) {
+            recyclerView.visibility = View.GONE
+            emptyView.visibility = View.GONE
+        } else {
+            if (mDataList.isEmpty()) {
+                emptyView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                emptyView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+            }
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(hasBackStack)
+        if (!hasBackStack) {
+            setTitle(getString(R.string.property_statistc))
+        }
+    }
+
+    private fun showProtocolDialog(isPrivacy: Boolean) {
+        val view = LayoutInflater.from(this).inflate(R.layout.activity_protocol, null)
+        val titleTxt = view.findViewById<TextView>(R.id.protocol_title)
+        val contentTxt = view.findViewById<TextView>(R.id.protocol_content)
+        if (isPrivacy) {
+            titleTxt.setText(R.string.privacy_policy_title)
+            contentTxt.setText(R.string.privacy_policy_content)
+        } else {
+            titleTxt.setText(R.string.service_protocal_title)
+            contentTxt.setText(R.string.service_protocal_content)
+        }
+        AlertDialog.Builder(this)
+            .setView(view)
+            .setPositiveButton(R.string.confirm, null)
+            .show()
+    }
+
+    override fun onNewItemCreated(itemRecord: ItemRecord) {
+        viewModel.insertRecord(itemRecord)
+        val changeRecord = ChangeRecord()
+        changeRecord.changeAmount = itemRecord.amount
+        changeRecord.remark = getString(R.string.new_add)
+        changeRecord.amountAfterModified = itemRecord.amount ?: 0.0
+        changeRecord.typeId = itemRecord.typeId ?: -1
+        changeRecord.typeName = itemRecord.typeName ?: ""
+        viewModel.insertChangeRecord(changeRecord)
+    }
+
+    override fun openEditType() {
+        openFragment(EditTypeFragment())
+    }
+
+    override fun openChangeDetails(type: Int, typeName: String?, balance: String?) {
+        openFragment(ChangeDetailFragment.newInstance(type, typeName, balance))
+    }
+
+    override fun openKLine() {
+        openFragment(KLineFragment())
+    }
+
+    override fun openShare() {
+        openFragment(ShareFragment())
     }
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NewItemActivity"
+    tools:context=".fragments.NewItemFragment"
     android:orientation="vertical">
 
 
@@ -28,12 +28,11 @@
             android:hint="@string/please_input"
             android:inputType="numberSigned|numberDecimal" />
         <ImageView
+            android:id="@+id/sign"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="fitXY"
-            android:src="@drawable/jiajian"
-            android:onClick="onSignClick"/>
-        />
+            android:src="@drawable/jiajian"/>
     </LinearLayout>
 
 
@@ -73,7 +72,6 @@
         android:background="@color/colorPrimary"
         android:text="@string/manage_type"
         android:layout_margin="@dimen/big_padding"
-        android:textColor="@color/buttonLabel"
-        android:onClick="editType"/>
+        android:textColor="@color/buttonLabel"/>
 
 </LinearLayout>

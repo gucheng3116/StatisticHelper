@@ -34,5 +34,12 @@
         layout="@layout/empty_view"
         android:visibility="gone" />
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

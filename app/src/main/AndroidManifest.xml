@@ -31,12 +31,6 @@
         android:roundIcon="@mipmap/statistic"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinAccount">
-        <activity android:name=".activity.ChangeDetailsActivity"/>
-        <activity android:name=".activity.ProtocolActivity" />
-        <activity android:name=".activity.KLineActivity" />
-        <activity android:name=".activity.ShareActivity" />
-        <activity android:name=".activity.EditTypeActivity" />
-        <activity android:name=".activity.NewItemActivity" />
         <activity android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

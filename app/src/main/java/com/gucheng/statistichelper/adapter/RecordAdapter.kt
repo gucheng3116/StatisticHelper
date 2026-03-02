@@ -1,25 +1,15 @@
 package com.gucheng.statistichelper.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gucheng.statistichelper.R
 import com.gucheng.statistichelper.Utils
-import com.gucheng.statistichelper.activity.ChangeDetailsActivity
-import com.gucheng.statistichelper.activity.KLineActivity
-import com.gucheng.statistichelper.activity.ShareActivity
 import com.gucheng.statistichelper.adapter.RecordAdapter.RecordViewHolder.Companion.amount
 import com.gucheng.statistichelper.database.entity.ItemRecord
-import com.gucheng.statistichelper.formatAmount
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_BALANCE
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE
-import com.gucheng.statistichelper.fragments.ChangeDetailFragment.Companion.EXTRA_TYPE_NAME
 import java.text.DecimalFormat
 
 class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
@@ -45,11 +35,11 @@ class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
             val format = DecimalFormat("0.00")
             itemType.text = format.format(itemRecord.amount)
             itemType.setOnClickListener {
-                var intent = Intent(itemView.context, ChangeDetailsActivity::class.java)
-                intent.putExtra(EXTRA_TYPE, itemRecord.typeId)
-                intent.putExtra(EXTRA_TYPE_NAME, itemRecord.typeName)
-                intent.putExtra(EXTRA_BALANCE, itemRecord.amount?.run { Utils.formatAmount(this) }?.toString())
-                itemView.context.startActivity(intent)
+                listener?.openChangeDetails(
+                    itemRecord.typeId ?: -1,
+                    itemRecord.typeName,
+                    itemRecord.amount?.run { Utils.formatAmount(this) }?.toString()
+                )
             }
             editBtn.setOnClickListener {
                 listener?.edit(itemRecord)
@@ -75,22 +65,12 @@ class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
             val totalAmounnt: TextView = itemView.findViewById(R.id.total_amount)
             totalAmounnt.setText(Utils.formatAmount(amount))
             totalAmounnt.setOnClickListener {
-                var intent = Intent(itemView.context, ChangeDetailsActivity::class.java)
-                intent.putExtra(EXTRA_TYPE, -1)
-                intent.putExtra(EXTRA_TYPE_NAME, "总资产")
-                intent.putExtra(EXTRA_BALANCE, Utils.formatAmount(amount))
-                itemView.context.startActivity(intent)
+                listener?.openChangeDetails(-1, "总资产", Utils.formatAmount(amount))
             }
             val changeTrend: TextView = itemView.findViewById(R.id.change_trend)
-            changeTrend.setOnClickListener { v ->
-                var intent = Intent(v.context, KLineActivity::class.java)
-                v.context.startActivity(intent)
-            }
+            changeTrend.setOnClickListener { listener?.openKLine() }
             val propertyShare: TextView = itemView.findViewById(R.id.property_share)
-            propertyShare.setOnClickListener { v ->
-                var intent = Intent(v.context, ShareActivity::class.java)
-                v.context.startActivity(intent)
-            }
+            propertyShare.setOnClickListener { listener?.openShare() }
         }
 
         companion object {
@@ -120,6 +100,12 @@ class RecordAdapter(itemListener: ItemListener, list: List<ItemRecord>?) :
         fun delete(record: ItemRecord)
 
         fun edit(record: ItemRecord)
+
+        fun openChangeDetails(type: Int, typeName: String?, balance: String?)
+
+        fun openKLine()
+
+        fun openShare()
     }
 
     companion object {
