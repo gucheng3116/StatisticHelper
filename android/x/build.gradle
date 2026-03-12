@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion 28
+//    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        consumerProguardFiles 'proguard-rules.txt'
+    }
+
+    resourcePrefix 'x_recycler'
+    namespace 'com.yanzhenjie.recyclerview.x'
+}
+
+dependencies {
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+}
